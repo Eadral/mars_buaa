@@ -101,7 +101,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             //System.out.println("You can not change the value of the zero register.");
          }
          else {
-            mainUI.getMessagesPane().postRunMessage(String.format("@%08x: $%d <= %08x\n", programCounter.getValue() - 4, num, val));
+             if (num <= 31) {
+                 if (mainUI != null)
+                     mainUI.getMessagesPane().postRunMessage(String.format("@%08x: $%2d <= %08x\n", programCounter.getValue() - 4, num, val));
+                 System.out.printf("@%08x: $%2d <= %08x\n", programCounter.getValue() - 4, num, val);
+             }
+
             for (int i=0; i< regFile.length; i++){
                if(regFile[i].getNumber()== num) {
                   old = (Globals.getSettings().getBackSteppingEnabled())

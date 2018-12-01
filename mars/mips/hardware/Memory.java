@@ -358,7 +358,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
    // Allocates blocks if necessary.
        public int set(int address, int value, int length) throws AddressErrorException {
-           mainUI.getMessagesPane().postRunMessage(String.format("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address, value));
+
            int oldValue = 0;
          if (Globals.debug) System.out.println("memory["+address+"] set to "+value+"("+length+" bytes)");
          int relativeByteAddress;
@@ -412,6 +412,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                Exceptions.ADDRESS_EXCEPTION_STORE, address);
          }
          notifyAnyObservers(AccessNotice.WRITE, address, length, value);
+           int newValue = get(address >> 2 << 2, WORD_LENGTH_BYTES, false);
+           if (mainUI != null)
+               mainUI.getMessagesPane().postRunMessage(String.format("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address, newValue));
+           System.out.printf("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address, newValue);
          return oldValue;
       }
    	
