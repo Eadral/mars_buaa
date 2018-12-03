@@ -414,8 +414,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          notifyAnyObservers(AccessNotice.WRITE, address, length, value);
            int newValue = get(address >> 2 << 2, WORD_LENGTH_BYTES, false);
            if (mainUI != null)
-               mainUI.getMessagesPane().postRunMessage(String.format("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address, newValue));
-           System.out.printf("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address, newValue);
+               mainUI.getMessagesPane().postRunMessage(String.format("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address >> 2 << 2, newValue));
+           System.out.printf("@%08x: *%08x <= %08x\n", RegisterFile.getProgramCounter() - 4, address >> 2 << 2, newValue);
          return oldValue;
       }
    	
