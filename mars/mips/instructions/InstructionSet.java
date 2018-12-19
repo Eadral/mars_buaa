@@ -3058,7 +3058,54 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      RegisterFile.setProgramCounter(Coprocessor0.getValue(Coprocessor0.EPC));
                   }
                }));
-      			
+         // Special Instruction
+         instructionList.add(
+                 new BasicInstruction("rotr $t1,$t2,10",
+                         "Rotate Word Right",
+                         BasicInstructionFormat.R_FORMAT,
+                         "000000 00001 sssss fffff ttttt 000010",
+                         new SimulationCode()
+                         {
+                             public void simulate(ProgramStatement statement) throws ProcessingException
+                             {
+                                 int[] operands = statement.getOperands();
+                                 // must zero-fill, so use ">>>" instead of ">>".
+                                 RegisterFile.updateRegister(operands[0],
+                                         RegisterFile.getValue(operands[1]) << (32 - operands[2]) | RegisterFile.getValue(operands[1]) >>> operands[2]);
+                             }
+                         })
+         );
+          instructionList.add(
+                  new BasicInstruction("lwpl $t1, -100($t2)",
+                          "lwpl",
+                          BasicInstructionFormat.I_FORMAT,
+                          "011001 ttttt fffff ssssssssssssssss",
+                          new SimulationCode()
+                          {
+                              public void simulate(ProgramStatement statement) throws ProcessingException
+                              {
+                                  int[] operands = statement.getOperands();
+                                  int rt = operands[0];
+                                  int base = operands[2];
+                                  int offset = operands[1];
+                                  int memWord;
+                                  try
+                                  {
+                                      memWord = Globals.memory.getWord(RegisterFile.getValue(base) + offset);
+                                  }
+                                  catch (AddressErrorException e)
+                                  {
+                                      throw new ProcessingException(statement, e);
+                                  }
+
+                                  if (memWord % 4 == 0) {
+                                      RegisterFile.updateRegister(31, memWord);
+                                  } else {
+                                      RegisterFile.updateRegister(rt, memWord);
+                                  }
+                              }
+                          })
+          );
         ////////////// READ PSEUDO-INSTRUCTION SPECS FROM DATA FILE AND ADD //////////////////////
          addPseudoInstructions();
       	

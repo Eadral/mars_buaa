@@ -386,7 +386,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             	
             	///////// DPS 15 June 2007.  Handle delayed branching if it occurs./////
                if (DelayedBranch.isTriggered()) {
-                  RegisterFile.setProgramCounter(DelayedBranch.getBranchTargetAddress());
+                  if (RegisterFile.getProgramCounter() != 0x4180)
+                    RegisterFile.setProgramCounter(DelayedBranch.getBranchTargetAddress());
+                  else
+                    Coprocessor0.updateRegister(14,Coprocessor0.getValue(14)-4);
                   DelayedBranch.clear();
                } 
                else if (DelayedBranch.isRegistered()) {
