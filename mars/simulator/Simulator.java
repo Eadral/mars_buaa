@@ -388,13 +388,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                if (DelayedBranch.isTriggered()) {
                   if (RegisterFile.getProgramCounter() != 0x4180)
                     RegisterFile.setProgramCounter(DelayedBranch.getBranchTargetAddress());
-                  else
-                    Coprocessor0.updateRegister(14,Coprocessor0.getValue(14)-4);
+                  else {
+                      Coprocessor0.updateRegister(14,Coprocessor0.getValue(14)-4);
+                      Coprocessor0.updateRegister(13, Coprocessor0.getValue(13) | 0x80000000);
+                  }
+
                   DelayedBranch.clear();
                } 
                else if (DelayedBranch.isRegistered()) {
                   DelayedBranch.trigger();
-               }//////////////////////////////////////////////////////////////////////
+               }
+               //////////////////////////////////////////////////////////////////////
             	
             	// Volatile variable initialized false but can be set true by the main thread.
             	// Used to stop or pause a running MIPS program.  See stopSimulation() above.

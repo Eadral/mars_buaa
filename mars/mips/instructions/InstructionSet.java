@@ -869,6 +869,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         == RegisterFile.getValue(operands[1]))
                      {
                         processBranch(operands[2]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -886,6 +888,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         != RegisterFile.getValue(operands[1]))
                      {
                         processBranch(operands[2]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -902,6 +906,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (RegisterFile.getValue(operands[0]) >= 0)
                      {
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -919,6 +925,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      {  // the "and link" part
                         processReturnAddress(31);//RegisterFile.updateRegister("$ra",RegisterFile.getProgramCounter());
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   } 
                }));
@@ -935,6 +943,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (RegisterFile.getValue(operands[0]) > 0)
                      {
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -951,6 +961,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (RegisterFile.getValue(operands[0]) <= 0)
                      {
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -967,6 +979,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (RegisterFile.getValue(operands[0]) < 0)
                      {
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -984,6 +998,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      {  // the "and link" part
                         processReturnAddress(31);//RegisterFile.updateRegister("$ra",RegisterFile.getProgramCounter());
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -1979,6 +1995,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (Coprocessor1.getConditionFlag(0)==1)
                      {
                         processBranch(operands[0]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -1995,6 +2013,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (Coprocessor1.getConditionFlag(operands[0])==1)
                      {
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   }
                }));
@@ -2011,6 +2031,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (Coprocessor1.getConditionFlag(0)==0)
                      {
                         processBranch(operands[0]);
+                     } else {
+                         processBranch(1);
                      }
                   
                   }
@@ -2028,6 +2050,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (Coprocessor1.getConditionFlag(operands[0])==0)
                      {
                         processBranch(operands[1]);
+                     } else {
+                         processBranch(1);
                      }
                   
                   }
@@ -3056,6 +3080,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      Coprocessor0.updateRegister(Coprocessor0.STATUS, 
                                                  Binary.clearBit(Coprocessor0.getValue(Coprocessor0.STATUS), Coprocessor0.EXCEPTION_LEVEL));
                      RegisterFile.setProgramCounter(Coprocessor0.getValue(Coprocessor0.EPC));
+                     Coprocessor0.updateRegister(13, Coprocessor0.getValue(13) & ~0x80000000);
                   }
                }));
          // Special Instruction
