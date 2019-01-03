@@ -7,7 +7,7 @@ $display("%d@%h: *%h <= %h", $time, pc, addr,din);
 
 output in GUI and CLI
 
-
+support BD exception.
 
 ## Reference
 
